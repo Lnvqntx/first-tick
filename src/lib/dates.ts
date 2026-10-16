@@ -4,18 +4,20 @@ const TZ = 'Asia/Kolkata'
 
 /** "27 Oct" */
 export function formatShort(iso: string): string {
-  return new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short', timeZone: TZ }).format(new Date(iso))
+  return new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', timeZone: TZ }).format(new Date(iso))
 }
 
 /** "Tue, 27 Oct 2026" */
 export function formatLong(iso: string): string {
-  return new Intl.DateTimeFormat('en-IN', {
+  const parts = new Intl.DateTimeFormat('en-GB', {
     weekday: 'short',
     day: 'numeric',
     month: 'short',
     year: 'numeric',
     timeZone: TZ,
-  }).format(new Date(iso))
+  }).formatToParts(new Date(iso))
+  const get = (t: Intl.DateTimeFormatPartTypes) => parts.find((p) => p.type === t)?.value ?? ''
+  return `${get('weekday')}, ${get('day')} ${get('month')} ${get('year')}`
 }
 
 /** "11:59 pm" */

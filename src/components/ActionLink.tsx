@@ -18,8 +18,8 @@ const variants: Record<Variant, string> = {
 }
 
 const disabledStyle = {
-  primary: 'border border-dashed border-gold-deep/50 text-muted',
-  secondary: 'border border-dashed border-line text-muted',
+  primary: 'flex-col !items-start !gap-0 border border-dashed border-gold-deep/60 text-text/70',
+  secondary: 'flex-col !items-start !gap-0 border border-dashed border-line text-text/70',
   quiet: 'text-muted',
 }
 
@@ -56,7 +56,9 @@ export function ActionLink({
         className={`${base[variant]} ${disabledStyle[variant]} cursor-not-allowed ${className}`}
       >
         <span>{children}</span>
-        <span className="font-mono text-xs font-normal">· {comingSoonLabel}</span>
+        <span className="font-mono text-xs font-normal text-muted">
+          {variant === 'quiet' ? `· ${comingSoonLabel}` : comingSoonLabel}
+        </span>
       </span>
     )
   }
