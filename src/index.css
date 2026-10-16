@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+  body {
+    @apply bg-ink font-sans text-base text-text antialiased;
+    font-feature-settings: 'kern', 'liga';
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-display text-text;
+    text-wrap: balance;
+  }
+  h1 {
+    font-weight: 380;
+    letter-spacing: -0.025em;
+  }
+  h2 {
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+  h3 {
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    @apply bg-gold text-ink;
+  }
+  :focus-visible {
+    outline: 2px solid theme('colors.gold.DEFAULT');
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  [id] {
+    scroll-margin-top: 5.5rem;
+  }
+}
+
+@layer components {
+  .page-x {
+    @apply mx-auto w-full max-w-page px-4 sm:px-6 lg:px-10;
+  }
+  .mono-label {
+    @apply font-mono text-xs text-muted;
+  }
+  .link-underline {
+    @apply underline decoration-line decoration-1 underline-offset-4 transition-colors hover:decoration-gold;
+  }
+  .field-input {
+    @apply block w-full rounded-[3px] border border-line bg-ink px-3.5 py-3 text-base text-text placeholder:text-muted/70 transition-colors hover:border-muted/60 focus:border-gold focus:outline-none focus-visible:outline-none;
+  }
+  .field-input[aria-invalid='true'] {
+    @apply border-loss;
+  }
+}
