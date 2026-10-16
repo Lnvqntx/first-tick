@@ -1,3 +1,11 @@
+import { Hero } from '../sections/Hero'
+import { usePageTitle } from '../lib/usePageTitle'
+
 export default function Home() {
-  return <div className="page-x py-24">Home</div>
+  usePageTitle()
+  return (
+    <>
+      <Hero />
+    </>
+  )
 }

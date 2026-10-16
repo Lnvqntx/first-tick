@@ -3,19 +3,24 @@ import { Link } from 'react-router-dom'
 
 type Variant = 'primary' | 'secondary' | 'quiet'
 
-const base =
-  'inline-flex min-h-[44px] items-center justify-center gap-2 rounded-[3px] px-5 py-2.5 text-sm font-medium transition-colors'
+const base: Record<Variant, string> = {
+  primary:
+    'inline-flex min-h-[44px] items-center justify-center gap-2 rounded-[3px] px-5 py-2.5 text-sm font-medium transition-colors',
+  secondary:
+    'inline-flex min-h-[44px] items-center justify-center gap-2 rounded-[3px] px-5 py-2.5 text-sm font-medium transition-colors',
+  quiet: 'inline-flex min-h-[32px] flex-wrap items-baseline gap-x-2 py-1 text-sm transition-colors',
+}
 
 const variants: Record<Variant, string> = {
   primary: 'bg-gold text-ink hover:bg-[#EEC55C] active:bg-gold-deep',
   secondary: 'border border-line text-text hover:border-gold/70 hover:text-text',
-  quiet: 'px-0 text-text underline decoration-line underline-offset-4 hover:decoration-gold',
+  quiet: 'text-text underline decoration-line underline-offset-4 hover:decoration-gold',
 }
 
 const disabledStyle = {
   primary: 'border border-dashed border-gold-deep/50 text-muted',
   secondary: 'border border-dashed border-line text-muted',
-  quiet: 'px-0 text-muted',
+  quiet: 'text-muted',
 }
 
 interface Props {
@@ -48,7 +53,7 @@ export function ActionLink({
       <span
         role="link"
         aria-disabled="true"
-        className={`${base} ${disabledStyle[variant]} cursor-not-allowed ${className}`}
+        className={`${base[variant]} ${disabledStyle[variant]} cursor-not-allowed ${className}`}
       >
         <span>{children}</span>
         <span className="font-mono text-xs font-normal">· {comingSoonLabel}</span>
@@ -56,7 +61,7 @@ export function ActionLink({
     )
   }
 
-  const cls = `${base} ${variants[variant]} ${className}`
+  const cls = `${base[variant]} ${variants[variant]} ${className}`
   const isInternal = href.startsWith('/') && !download && !href.endsWith('.pdf') && !href.endsWith('.ipynb')
 
   if (isInternal) {
