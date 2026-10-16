@@ -2,6 +2,7 @@ import { Hero } from '../sections/Hero'
 import { About } from '../sections/About'
 import { WhyJoin } from '../sections/WhyJoin'
 import { Schedule } from '../sections/Schedule'
+import { Register } from '../sections/Register'
 import { Certificates } from '../sections/Certificates'
 import { Faq } from '../sections/Faq'
 import { Closing } from '../sections/Closing'
@@ -15,7 +16,7 @@ export default function Home() {
       <About />
       <WhyJoin />
       <Schedule />
-      {/* Register section is added with the form */}
+      <Register />
       <Certificates />
       <Faq />
       <Closing />
