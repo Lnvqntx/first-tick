@@ -68,6 +68,7 @@ export interface EventConfig {
   }
   resources: ResourceItem[]
   recordingUrl: string | null
+  clubPhoto: { src: string; alt: string } | null
   faq: FaqItem[]
 }
 
@@ -224,6 +225,14 @@ export const event: EventConfig = {
 
   /** Recorded session link. null = the "Recorded session" card is hidden. */
   recordingUrl: null,
+
+  /**
+   * Optional real photo of the club for the About section, e.g.
+   * { src: '/brand/club-photo.jpg', alt: 'Programming Club members at …' }.
+   * null = a typographic placeholder is shown instead. Use a real photo only,
+   * never stock or AI-generated images.
+   */
+  clubPhoto: null,
 
   faq: [
     {
