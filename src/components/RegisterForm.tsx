@@ -196,7 +196,7 @@ export function RegisterForm() {
           type="submit"
           disabled={submitting}
           aria-disabled={submitting}
-          className="inline-flex min-h-[48px] items-center justify-center rounded-[3px] bg-gold px-6 text-sm font-medium text-ink transition-colors hover:bg-[#EEC55C] active:bg-gold-deep disabled:cursor-wait disabled:opacity-70"
+          className="inline-flex min-h-[48px] items-center justify-center rounded-[3px] px-6 text-sm font-medium btn-gold disabled:cursor-wait disabled:opacity-70"
         >
           {submitting ? 'Registering…' : 'Register for free'}
         </button>

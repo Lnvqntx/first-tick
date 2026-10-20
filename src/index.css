@@ -24,12 +24,12 @@
     text-wrap: balance;
   }
   h1 {
-    font-weight: 380;
-    letter-spacing: -0.025em;
+    font-weight: 650;
+    letter-spacing: -0.035em;
   }
   h2 {
-    font-weight: 400;
-    letter-spacing: -0.02em;
+    font-weight: 500;
+    letter-spacing: -0.025em;
   }
   h3 {
     font-weight: 500;
@@ -45,6 +45,7 @@
     outline: 2px solid theme('colors.gold.DEFAULT');
     outline-offset: 3px;
     border-radius: 2px;
+    box-shadow: 0 0 18px 2px rgb(227 178 60 / 0.35);
   }
   [id] {
     scroll-margin-top: 5.5rem;
@@ -52,6 +53,12 @@
 }
 
 @layer components {
+  .text-gold-grad {
+    @apply bg-gold-grad bg-clip-text text-transparent;
+  }
+  .btn-gold {
+    @apply bg-gold-grad text-ink shadow-glow-soft transition-[box-shadow,filter] hover:bg-gold-grad-hover hover:shadow-glow focus-visible:shadow-glow active:brightness-95;
+  }
   .page-x {
     @apply mx-auto w-full max-w-page px-4 sm:px-6 lg:px-10;
   }
