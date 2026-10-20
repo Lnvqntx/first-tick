@@ -2,7 +2,7 @@ import { event } from '../config/event'
 
 export function Faq() {
   return (
-    <section id="faq" aria-labelledby="faq-title" className="border-b border-line">
+    <section id="faq" aria-labelledby="faq-title">
       <div className="page-x grid gap-10 py-16 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] md:gap-16 md:py-24">
         <h2 id="faq-title" className="text-h2">
           Questions

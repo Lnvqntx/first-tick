@@ -5,7 +5,7 @@ import { ActionLink } from './ActionLink'
 
 export function Footer() {
   return (
-    <footer>
+    <footer className="border-t border-line">
       <div className="page-x grid gap-10 py-12 md:grid-cols-[1.4fr_1fr_auto] md:items-start md:gap-12">
         <div className="space-y-4">
           <Wordmark />
