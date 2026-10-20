@@ -74,11 +74,6 @@ export function Header() {
                 </Link>
               </li>
             ))}
-            <li>
-              <Link to="/verify" className="block py-3 text-lead text-text">
-                Verify a certificate
-              </Link>
-            </li>
           </ul>
         </nav>
       )}
