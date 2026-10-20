@@ -16,7 +16,9 @@ export interface EventDay {
   day: DayNumber
   /** ISO date-time with IST offset, e.g. '2026-10-27T00:00:00+05:30'. */
   date: string
+  /** Short title shown under the schedule candle. */
   title: string
+  /** Up to 3 short bullets, shown when the day is selected. */
   topics: string[]
   /** 'learning' days are theory sessions; 'assignment' is the submission day. */
   kind: 'learning' | 'assignment'
@@ -51,6 +53,16 @@ export interface FaqItem {
 export interface EventConfig {
   name: string
   tagline: string
+  /** One line under the hero wordmark. Keep it to 12 words or fewer. */
+  heroLine: string
+  /** True facts shown in one line under the hero. `short` is used on phones. No invented numbers. */
+  facts: { label: string; short: string }[]
+  about: {
+    /** Two short sentences. */
+    intro: string[]
+    /** Three one-line benefits. */
+    benefits: { title: string; body: string }[]
+  }
   clubName: string
   collegeName: string
   collegeFullName: string
@@ -68,7 +80,6 @@ export interface EventConfig {
   }
   resources: ResourceItem[]
   recordingUrl: string | null
-  clubPhoto: { src: string; alt: string } | null
   faq: FaqItem[]
 }
 
@@ -79,6 +90,25 @@ export interface EventConfig {
 export const event: EventConfig = {
   name: 'First Tick',
   tagline: 'Your first step into financial markets.',
+  heroLine: 'A free three-day beginner programme on markets, risk and paper trading.',
+  facts: [
+    { label: '3 learning days', short: '3 days' },
+    { label: '1 assignment', short: '1 assignment' },
+    { label: 'Free for CR Rao AIMSCS students', short: 'Free' },
+    { label: 'Certificate on completion', short: 'Certificate' },
+  ],
+
+  about: {
+    intro: [
+      'First Tick is a free online programme by the Programming Club, CR Rao AIMSCS, for students who have never traded.',
+      'It teaches how markets work and how to manage risk, not tips or promised profits.',
+    ],
+    benefits: [
+      { title: 'Paper trading only', body: 'Practise with simulated money. Mistakes cost nothing.' },
+      { title: 'Optional Python track', body: 'Plot a chart and backtest a moving-average crossover.' },
+      { title: 'Community and doubts', body: 'One WhatsApp group for updates, one for questions.' },
+    ],
+  },
   clubName: 'Programming Club',
   collegeName: 'CR Rao AIMSCS',
   /** Shown in small print where the full name helps. */
@@ -106,47 +136,42 @@ export const event: EventConfig = {
       title: 'Markets and basics',
       kind: 'learning',
       topics: [
-        'What financial markets are and why they exist',
         'Stocks, exchanges, brokers and demat accounts',
-        'Order types: market, limit, stop',
-        'Trading vs investing',
-        'Personal finance basics',
-        'An intro to charts and candlesticks',
+        'Order types, and trading vs investing',
+        'Personal finance basics and your first candlestick chart',
       ],
     },
     {
       day: 2,
       date: '2026-10-28T00:00:00+05:30',
-      title: 'Analysis and market movers',
+      title: 'Analysis and movers',
       kind: 'learning',
       topics: [
-        'Reading price charts',
         'Trends, support and resistance',
-        'Basic technical analysis: moving averages and RSI',
+        'Moving averages and RSI',
         'What moves markets: fundamentals, news and macro',
       ],
     },
     {
       day: 3,
       date: '2026-10-29T00:00:00+05:30',
-      title: 'Risk, strategy and practice',
+      title: 'Risk and strategy',
       kind: 'learning',
       topics: [
-        'Entry, stop-loss and target',
-        'Risk-reward and position sizing',
-        'Trading psychology and common mistakes',
-        'Real-world costs and how to spot scams',
-        'Paper-trading assignment guidance',
+        'Entry, stop-loss, target and position sizing',
+        'Trading psychology, real costs and spotting scams',
+        'Guidance for the paper-trade assignment',
       ],
     },
     {
       day: 4,
       date: '2026-10-30T00:00:00+05:30',
-      title: 'Paper-trade assignment submission',
+      title: 'Assignment',
       kind: 'assignment',
       topics: [
-        'Submit one paper trade as a PDF through the submission form',
-        'Annotated chart, entry, stop-loss, target, risk-reward, position size and a short justification',
+        'Submit one paper trade as a PDF',
+        'Annotated chart, entry, stop, target, risk-reward and position size',
+        'A short justification of your plan',
       ],
     },
   ],
@@ -226,55 +251,34 @@ export const event: EventConfig = {
   /** Recorded session link. null = the "Recorded session" card is hidden. */
   recordingUrl: null,
 
-  /**
-   * Optional real photo of the club for the About section, e.g.
-   * { src: '/brand/club-photo.jpg', alt: 'Programming Club members at …' }.
-   * null = a typographic placeholder is shown instead. Use a real photo only,
-   * never stock or AI-generated images.
-   */
-  clubPhoto: null,
 
   faq: [
     {
       question: 'Do I need any prior knowledge?',
-      answer:
-        'No. First Tick starts from zero: what a market is, what a stock is, how an order works. If you have traded before, Day 2 and Day 3 still go deeper into analysis and risk.',
+      answer: 'No. First Tick starts from zero, and Days 2 and 3 still go deeper if you have traded before.',
     },
     {
       question: 'Does it cost anything?',
-      answer:
-        'No. First Tick is free for all CR Rao AIMSCS students. You will never be asked to pay, open a broker account or put in real money.',
+      answer: 'No. It is free for all CR Rao AIMSCS students, and you never need real money or a broker account.',
     },
     {
-      question: 'Are there live sessions?',
       // TBD: replace once decided, e.g. 'Yes, a 60-minute live session each evening at 7:00 pm IST.'
-      answer:
-        'To be announced. The format of each day (live session, recorded talk or notes only) will be shared in the WhatsApp community before Day 1. The daily notes are always available on the Resources page.',
+      question: 'Are there live sessions?',
+      answer: 'To be announced in the WhatsApp community before Day 1. Daily notes are always on the Resources page.',
     },
     {
       question: 'What is the final assignment?',
       answer:
-        'On Day 4 you submit one paper trade as a PDF: an annotated chart, your entry, stop-loss and target, the risk-reward, your position size and a short justification. Paper trading means no real money is used.',
+        'One paper trade, submitted as a PDF on Day 4: an annotated chart, entry, stop-loss, target, risk-reward, position size and a short justification.',
     },
     {
       question: 'How do certificates work?',
       answer:
-        'Every valid submission that follows the format gets a Certificate of Completion. The top submissions, judged on a published rubric (process, risk management and clarity, not profit), also receive a Certificate of Merit. Each certificate has an ID you can check on the Verify page.',
-    },
-    {
-      question: 'Do I need to know Python?',
-      answer:
-        'No. The Python track is optional. If you want to try it, the notebook walks you through plotting a chart and backtesting a moving-average crossover.',
+        'Every valid submission gets a Certificate of Completion. Top submissions, judged on process and risk rather than profit, also get a Certificate of Merit.',
     },
     {
       question: 'Where are updates shared?',
-      answer:
-        'In the First Tick WhatsApp community. Join the announcements group after registering. Doubts go to the separate doubts group so announcements stay easy to read.',
-    },
-    {
-      question: 'Will you give stock tips?',
-      answer:
-        'No. First Tick teaches process and risk management. Nothing in the programme is investment advice, and nobody can promise profits.',
+      answer: 'In the First Tick WhatsApp community. Join right after you register.',
     },
   ],
 }

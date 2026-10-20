@@ -15,7 +15,6 @@ export function About() {
           <h2 id="about-title" className="max-w-[16ch] text-h2">
             A calm, structured start. Not a hot tip.
           </h2>
-          <ClubPhoto />
         </div>
 
         <div className="max-w-prose space-y-6 text-base text-muted md:pt-2">
@@ -46,37 +45,5 @@ export function About() {
         </div>
       </div>
     </section>
-  )
-}
-
-/** Real club photo if configured, otherwise a typographic placeholder slot. */
-function ClubPhoto() {
-  if (event.clubPhoto) {
-    return (
-      <img
-        src={event.clubPhoto.src}
-        alt={event.clubPhoto.alt}
-        loading="lazy"
-        className="mt-10 aspect-[4/3] w-full max-w-md rounded-[3px] object-cover"
-      />
-    )
-  }
-  return (
-    // PHOTO SLOT: set `clubPhoto` in src/config/event.ts to replace this panel with a real club photo.
-    <div
-      className="mt-10 flex aspect-[4/3] w-full max-w-md flex-col justify-between rounded-[3px] border border-line bg-surface p-6"
-      data-slot="club-photo"
-    >
-      <p className="font-display text-h3 text-text">
-        Built by students,
-        <br />
-        for students.
-      </p>
-      <p className="font-mono text-xs text-muted">
-        {event.clubName}
-        <br />
-        {event.collegeName}
-      </p>
-    </div>
   )
 }
