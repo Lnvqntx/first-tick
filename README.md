@@ -9,9 +9,9 @@ The site's jobs: get students to register and join the WhatsApp
 community, serve the daily PDFs, link the final submission form, and let
 anyone verify a certificate ID.
 
-- `/` landing page (about, schedule, registration, certificates, FAQ)
+- `/` landing page: live-chart hero, schedule, about, registration, FAQ
 - `/resources` daily notes, assignment brief, Python notebook
-- `/verify` certificate ID lookup
+- `/verify` certificate ID lookup (kept but not linked from the site for now)
 
 Stack: Vite, React, TypeScript, Tailwind CSS, `react-router-dom`. Static
 output, no backend. Fonts are self-hosted with `@fontsource` (Fraunces and
@@ -41,14 +41,15 @@ You should never need to edit a component.
 | What | Field | Notes |
 |---|---|---|
 | Names | `name`, `tagline`, `clubName`, `collegeName` | |
+| Hero | `heroLine`, `facts[]` | One line under the wordmark (max 12 words); the facts row under the hero (`short` labels are used on phones). |
+| About | `about.intro[]`, `about.benefits[]` | Two short sentences and three one-line benefits. |
 | Date status | `datesConfirmed` | `false` shows "Dates to be confirmed" everywhere dates appear. Set `true` when final. |
-| Days | `days[]` | Date (ISO with `+05:30`), title, topic list. |
+| Days | `days[]` | Date (ISO with `+05:30`), short title (under the schedule candle), up to 3 topics (shown when the day is selected). |
 | Submission deadline | `submissionDeadline`, `submissionDeadlineConfirmed` | Placeholder `23:59` until decided. |
 | Links | `links.whatsappAnnouncements`, `links.whatsappDoubts`, `links.submissionForm`, `links.registrationEndpoint` | Empty `''` = button shows disabled with "Link coming soon". |
 | Files | `resources[]` | `file: null` = locked. See below. |
 | Recording | `recordingUrl` | `null` hides the "Recorded session" card. Set a URL to show it on `/resources`. |
-| Club photo | `clubPhoto` | `null` shows a typographic panel in About. Set `{ src, alt }` for a real photo. |
-| FAQ | `faq[]` | `{ question, answer }`. The live-sessions answer is a placeholder. |
+| FAQ | `faq[]` | `{ question, answer }`. At most 6 are shown. The live-sessions answer is a placeholder. |
 
 Other files you may replace:
 
@@ -83,6 +84,9 @@ item is unlocked only when its `file` is set. `availableOn` is just the
 date shown on the locked card.
 
 ## Certificates and `/verify`
+
+The landing page does not link the verify page for
+now; the route still works at `/verify` if you open it directly.
 
 `public/certificates.json` is an array:
 
@@ -143,17 +147,21 @@ Made while building Phase 1 without asking; change any of them freely.
 - **WhatsApp number**: must be a 10-digit Indian mobile number (starting
   6–9); `+91` or a leading `0` is accepted and stripped.
 - **Experience levels** are stored as `never`, `basics`, `traded`.
-- **Certificate ID format** in the preview and samples is `FT26-…`. The
+- **Certificate ID format** in the samples is `FT26-…`. The
   real format is the club's choice; `/verify` matches whatever is in the
   JSON.
 - **Merit rubric** is described as rewarding process, risk management and
   clarity rather than profit, to be published with the assignment brief.
-- **No club photo** is available, so About shows a typographic panel
-  (`clubPhoto: null`). No stock or AI images are used anywhere.
+- **No photos** are used anywhere (no stock or AI images).
 - **Logo**: a placeholder three-bar mark in `public/brand/`.
 - **Colour**: muted text was nudged from `#9A9486` to `#A39D8F` for
-  comfortable AA contrast on both background tones; a muted terracotta
-  `#D9705A` is used only for form errors and a falling candle.
+  comfortable AA contrast. Market green `#2FBF71` and red `#E5534B` are
+  used only inside charts; form errors use a lighter red `#EE6A62`.
+- **Hero chart** is a random-walk simulation, labelled as such. The
+  pointer pulls the price toward its height; the price scale is fixed
+  around 100 so it can never run away. Tick ~120 ms, 9 ticks per candle.
+- **Schedule candle heights** are design choices (rising Day 1 → Day 3,
+  smaller hollow Day 4), not data.
 - **Fonts**: Fraunces (display) and IBM Plex Sans / Plex Mono (text, dates,
   IDs). Plex Mono is the same family as Plex Sans.
 - **Hosting**: Vercel, with the SPA rewrite in `vercel.json`.
@@ -164,10 +172,10 @@ Made while building Phase 1 without asking; change any of them freely.
 ```
 src/
   config/event.ts       all editable content
-  components/           header, footer, buttons, hero candle, form, certificate preview
+  components/           header, footer, buttons, live chart canvas wrapper, form
   sections/             landing page sections in page order
   pages/                Home, Resources, Verify, NotFound
-  lib/                  date formatting, registration logic, hooks
+  lib/                  live chart engine (liveChart.ts), date formatting, registration logic, hooks
 public/
   brand/                logo placeholder, favicon
   resources/            daily PDFs (commit each on its morning)

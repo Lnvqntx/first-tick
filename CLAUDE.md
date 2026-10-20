@@ -28,38 +28,42 @@ Everything the club will edit lives here, typed and commented:
 - `faq`: array of question and answer.
 
 ## Design direction (follow this)
-Black and gold. Premium, calm, a little cinematic, like a late-night trading desk. Not a copy of any other course site.
-- Palette (adjust slightly if contrast demands): ink `#0B0A08`, surface `#151311`, line `#2A2620`, gold `#E3B23C`, deep gold `#B8892B`, text `#F3EEE3`, muted `#9A9486`. Gold is for the primary button and a few key marks only. Spend it sparingly.
-- Type: pick two clearly distinct, non-default families (not Inter, Roboto, Arial or Space Grotesk). One expressive display face for headlines, one clean text face. Sentence case for headings and labels. Body lines under 75 characters. Define a real type scale.
-- Wordmark: "FIRSTTICK" with the "TICK" part in gold and a small three-bar signal mark. Use a simple placeholder logo file at `public/brand/logo-placeholder.svg` that the club can replace.
-- One memorable moment: in the hero, a single candlestick forms tick by tick, once, on load (SVG or canvas, light). Everything else stays still, with hover and focus states only. Respect `prefers-reduced-motion` (show the final state, no animation).
-- Layout: left-aligned text, generous spacing, thin hairlines only where they separate real content. Avoid identical rounded-card grids for everything, tracked all-caps eyebrow labels above every heading, "01 / 02 / 03" numbering (only use numbers for the actual day sequence), decorative gradient washes and fade-in on every section.
-- No stock photos and no AI-generated campus or office images. Where a photo would go, use a clean typographic or SVG treatment and leave a clearly marked slot.
-- Quality floor: responsive from 360px up, visible keyboard focus, AA contrast, semantic HTML, alt text, fast first load.
+Black and gold with market energy. Premium and cinematic, like a live trading desk at night, but classy, never neon. Not a copy of any other course site (no purple, no 3D shapes, no borrowed layouts).
+- Palette (adjust slightly if contrast demands): ink `#0B0A08`, surface `#151311`, line `#2A2620`, gold `#E3B23C`, deep gold `#B8892B`, text `#F3EEE3`, muted `#A39D8F`. Market colours: up green `#2FBF71`, down red `#E5534B`, used inside charts only (hero chart, schedule candles).
+- Gold: a richer gold gradient (`#F7D77E` → `#E3B23C` → `#B8892B`) on the primary button and a few key marks (wordmark "TICK", selected schedule candle, Day 4 outline). Soft gold glow on hover and keyboard focus only. Still spend gold sparingly.
+- Type: two clearly distinct, non-default families (Fraunces for display, IBM Plex Sans/Mono for text). Bold, large display type; secondary copy in muted so headings pop. Sentence case for headings and labels. Body lines under 75 characters. Defined type scale in `tailwind.config.js`.
+- Wordmark: "FIRSTTICK" with the "TICK" part in gold and a small three-bar signal mark. Placeholder logo file at `public/brand/logo-placeholder.svg` that the club can replace.
+- Motion, only two things: (1) the hero's live simulated chart (the memorable moment), (2) the schedule candles grow in once when first scrolled into view. Everything else is static apart from hover and focus. Respect `prefers-reduced-motion` (static chart with crosshair; candles shown without the grow-in).
+- Layout: generous spacing, thin hairlines only where they separate real content. The hero is centred; other sections are left-aligned. Avoid identical rounded-card grids, tracked all-caps eyebrow labels above every heading, "01 / 02 / 03" numbering (only use numbers for the actual day sequence), decorative gradient washes (the hero's dark readability vignette is the one functional overlay) and fade-in on every section.
+- Page length: the landing page should stay around 4–5 screens at 1440×900. Keep copy short.
+- No stock photos and no AI-generated campus or office images.
+- Quality floor: responsive from 360px up, visible keyboard focus, AA contrast (including text over the hero chart), semantic HTML, alt text, fast first load.
 
 ## Pages and sections
 
-### `/` Landing
+### `/` Landing (in this order)
 1. Header: wordmark, nav (About, Schedule, Resources, FAQ), Register button.
-2. Hero: headline "Your first step into financial markets." Supporting line: a free 3-day beginner programme, plus a paper-trading assignment and a certificate. Buttons: Register, View schedule. A small row with only true facts: 3 learning days, 1 assignment, free for CR Rao AIMSCS students, certificate on completion. No invented numbers or testimonials.
-3. About: what First Tick is, who runs it (Programming Club), what you will learn, and that it teaches process and risk management, not tips or guaranteed profit.
-4. Why join: 4 points (structured path for beginners, learn safely with paper trading, optional Python track, community and doubt support). Keep each to one or two sentences. Vary the layout, do not make four identical cards.
-5. Schedule: a vertical timeline for Day 1 to Day 4 with date and topic list.
-   - Day 1: What financial markets are, stocks, exchanges, brokers and demat accounts, order types, trading vs investing, personal finance basics, an intro to charts and candlesticks.
-   - Day 2: Reading price charts, trends, support and resistance, basic technical analysis (moving averages, RSI), what moves markets (fundamentals, news, macro).
-   - Day 3: Entry, stop-loss and target, risk-reward and position sizing, trading psychology and common mistakes, real-world costs and how to spot scams, paper-trading assignment guidance.
-   - Day 4: Paper-trade assignment submission.
-6. Register: the form (see below).
-7. Certificates: Completion (valid final submission that follows the format) and Merit (top submissions on a clear rubric). Show a clean certificate preview rendered in SVG or HTML with a placeholder name and a sample ID.
-8. FAQ: accordion from config. Include: prior knowledge needed, cost, live sessions (answer TBD per config), the final assignment, certificates, where updates are shared.
-9. Closing call to action, then footer with club credit, WhatsApp links, and the disclaimer.
+2. Hero (full viewport):
+   - Behind the content, a full-bleed `<canvas>` candlestick chart streaming a SIMULATED price feed: a tick every ~100–150 ms, candles forming and scrolling left, a smooth gold live-price line, faint grid, small volume bars along the bottom.
+   - Pointer interaction: a crosshair follows the cursor (or touch point) with a price label on the right axis, and the live price drifts toward the level under the pointer's Y, so moving it visibly changes the current candle, price and recent candle colours. When idle the feed keeps running on its own.
+   - Dark vignette overlay so text stays AA-readable. Tiny label: "Simulated chart, not real market data".
+   - Performance: requestAnimationFrame, devicePixelRatio and resize handled, paused when the tab is hidden or the hero is off-screen, candle count capped by width.
+   - Content, centred: a small chip "Programming Club, CR Rao AIMSCS | 27–30 Oct 2026" (with the "Dates to be confirmed" note from config), a huge "FIRSTTICK" wordmark (FIRST off-white, TICK gold), one line of at most 12 words (`heroLine` in config), and two buttons: Register, View schedule.
+   - Under the hero, one line of true facts from config (3 learning days, 1 assignment, free for CR Rao AIMSCS students, certificate on completion). No invented numbers or testimonials.
+3. Schedule: a horizontal row of four candles for Day 1 to Day 4 joined by a thin trend line. Days 1–3 rise and are green (Day 3 tallest); Day 4 (assignment) is a hollow gold outline. Under each candle: day label, date, short title. Each candle is a real `<button aria-pressed>`; hover, focus or click shows that day's topics (max 3 bullets from config) in one panel below. Day 1 selected by default. Compact horizontal row on mobile.
+4. About (merged with Why join): two short sentences (who runs it, process and risk not tips) plus three one-line benefits: paper trading, optional Python track, community and doubts. All from `about` in config.
+5. Register: the form (see below), with a two-line intro.
+6. FAQ: accordion from config, at most 6 questions with 1–2 sentence answers: prior knowledge, cost, live sessions (TBD), the final assignment, certificates, where updates are shared.
+7. Footer: club credit, WhatsApp links, Resources link, the final Register button, and the disclaimer. No separate closing CTA block.
+
+Certificates are not shown on the landing page for now (no section, preview or links). The `/verify` route and its files stay in the repo, unlinked.
 
 ### `/resources`
 Tabs: Day 1, Day 2, Day 3, Assignment, Python track. Each item shows a locked state ("Unlocks on 27 Oct", dates from config) or an unlocked state (Download, plus an in-page PDF view via `<iframe>` or `<object>` with a download fallback) based on whether `file` is set. Also show an "Open submission form" button on the Assignment tab, disabled until `links.submissionForm` is set. Include a short note on the assignment page about the expected PDF format (annotated chart, entry/stop/target, risk-reward, position size, short justification).
 
 Important: date-based unlocking in the browser is only cosmetic. The real unlock is that a day's PDF is not committed to `public/resources/` until its morning. Document this in the README.
 
-### `/verify`
+### `/verify` (kept, currently not linked from the site)
 Input for a certificate ID. Look it up in `public/certificates.json` (array of `{ id, name, tier, date }`; ship a file with two clearly fake sample entries). Show name and tier, or a clear "No certificate found for this ID" message. Normalize case and whitespace.
 
 ## Registration form
