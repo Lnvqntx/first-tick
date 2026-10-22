@@ -195,3 +195,82 @@ linked.
 Revision after the check: the first idea was a gradient-filled section
 background behind the schedule. That is a decorative wash, so it was
 dropped; the schedule sits on plain ink.
+
+---
+
+# Revision 3: glow, pills, marquee, challenge, three steps
+
+Hero layout, live chart and candle schedule stay. Target ≈ 6 screens at
+1440×900.
+
+## Page order
+```
+header  [seal] FIRSTTICK   Schedule Challenge How-to-join FAQ Resources  (Register now)
+hero    live chart + drifting colour glows, gold bloom behind FIRSTTICK
+        (Register now)  (◯ Join WhatsApp)
+bands   ╲ MARKET FOUNDATION ✦ TECHNICAL ANALYSIS ✦ … ← solid, medium ╲
+          ╲ support and resistance ✦ indicators ✦ …  ← outlined, slower ╲
+schedule  four candles + panel (unchanged)
+challenge "Make your first trade. On paper."
+          ┌ Final trading challenge ┐ ┌ ★ Certificate of completion (gold) ┐
+          │ read · plan · manage ·  │ │ FIRSTTICK  [seal]  Completion·Merit │
+          │ submit                  │ │ verifiable ID            (seal)     │
+          └─────────────────────────┘ └─────────────────────────────────────┘
+steps     ┌ 1 Register ┐ ┌ 2 Join WhatsApp ┐ ┌ 3 Show up on 27 Oct ┐
+faq       6 rows
+footer    compact: seal, credit · WhatsApp · Resources · (Register now) · disclaimer
+```
+
+## Colour and glow
+- Hero: three blurred radial blobs (gold, emerald, a little magenta at
+  low alpha) drifting on 30–40 s CSS loops behind the chart; a gold
+  radial bloom behind the wordmark; `text-shadow` glow on FIRSTTICK.
+  Canvas candles and the price line get a small `shadowBlur`.
+- Readability: the dark centre vignette stays on top of the glows, so
+  the AA check from revision 2 still holds (re-measured after the build).
+- Magenta is a hint only (≤ 12% alpha, top corner). No blue or purple
+  anywhere else, and none in the marquee.
+
+## Shapes and interaction
+- Every button and chip is a pill (`rounded-full`). Cards stay softly
+  rounded (they are not chips).
+- Cursor-reactive outlines: one `useCursorGlow` hook sets `--mx/--my`,
+  `--rx/--ry` and a few px of shift on pointermove (rAF-throttled), and a
+  `.glow-edge` class draws a gold radial highlight on the border via a
+  masked pseudo-element. Max tilt 4°. Only transform and opacity change.
+  Off on touch devices (`pointer: coarse`) and with reduced motion.
+- Scroll reveal: `Reveal` wrapper plus `data-reveal` children with
+  stagger (opacity, 12px rise, 4px→0 blur, 600 ms), once per element.
+  A slim gold progress bar at the top. Reduced motion: everything
+  visible, no bar animation.
+
+## Copy and links
+- `links.registrationForm`, `links.whatsappCommunity` (plus
+  `submissionForm`). Registration is a Google Form, so the in-page form,
+  the Apps Script and its docs are removed.
+- Challenge items: Read the market, Plan the trade, Manage the risk,
+  Submit your plan.
+- Steps 1–3 are a real sequence, so numbers are allowed there.
+
+## Check against the "avoid" list
+- **Identical card grids:** the challenge pair is deliberately unequal
+  (a plain dark card next to a rich gold certificate). The three steps
+  are the only same-shaped trio, and they are a real numbered sequence
+  with different actions (button, WhatsApp button, date chip).
+- **Eyebrow labels:** none. The bands are content (the curriculum), not
+  labels.
+- **Numbering:** Day 1–4 and steps 1–3 only, both real sequences.
+- **Gradient washes:** the colour glows live only inside the hero, behind
+  the chart. Other sections stay on flat ink. The certificate's gold
+  gradient is the object itself, not a background wash.
+- **Fade-in on every section:** this revision explicitly asks for it.
+  Kept quick (≤ 600 ms), once only, and fully off under reduced motion.
+  CLAUDE.md is updated to allow it.
+- **Copying others:** tilted marquee bands are a common pattern, so ours
+  use our own content (the actual curriculum), Fraunces solid and
+  outlined type, gold star separators, and no blue or purple.
+
+Revision after the check: the first sketch gave all three step cards a
+gold gradient. That turns the section into a template card grid and
+spends gold everywhere, so only the certificate gets the gradient and
+the steps stay dark with a gold number.
