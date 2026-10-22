@@ -77,3 +77,71 @@
     @apply border-loss;
   }
 }
+
+/* ---------- Hero glow ---------- */
+@layer components {
+  .hero-glow {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(90px);
+    will-change: transform;
+    animation: drift 34s ease-in-out infinite alternate;
+  }
+  .hero-glow--gold {
+    width: 46vmax;
+    height: 46vmax;
+    left: 8%;
+    top: 4%;
+    background: radial-gradient(circle, rgb(227 178 60 / 0.4), transparent 65%);
+  }
+  .hero-glow--emerald {
+    width: 40vmax;
+    height: 40vmax;
+    right: -6%;
+    bottom: -14%;
+    background: radial-gradient(circle, rgb(47 191 113 / 0.32), transparent 65%);
+    animation-duration: 41s;
+    animation-delay: -12s;
+  }
+  .hero-glow--magenta {
+    width: 30vmax;
+    height: 30vmax;
+    right: 6%;
+    top: -12%;
+    background: radial-gradient(circle, rgb(214 72 150 / 0.2), transparent 65%);
+    animation-duration: 29s;
+    animation-delay: -20s;
+  }
+  .wordmark-bloom {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: min(90vw, 62rem);
+    height: 22rem;
+    transform: translate(-50%, -58%);
+    background: radial-gradient(closest-side, rgb(227 178 60 / 0.2), rgb(227 178 60 / 0.06) 55%, transparent);
+    filter: blur(28px);
+    pointer-events: none;
+  }
+  .wordmark-glow {
+    filter: drop-shadow(0 0 22px rgb(227 178 60 / 0.35)) drop-shadow(0 0 2px rgb(247 215 126 / 0.4));
+  }
+}
+
+@keyframes drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(8vw, 5vh, 0) scale(1.12);
+  }
+  100% {
+    transform: translate3d(-6vw, -4vh, 0) scale(0.94);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-glow {
+    animation: none;
+  }
+}

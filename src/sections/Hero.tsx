@@ -14,8 +14,14 @@ export function Hero() {
       <section
         ref={heroRef}
         aria-labelledby="hero-title"
-        className="relative isolate flex min-h-[calc(100svh-4rem)] items-center justify-center overflow-hidden"
+        className="relative isolate flex min-h-[calc(100svh-4rem)] items-center justify-center overflow-hidden bg-ink"
       >
+        {/* Slow-drifting colour glows behind the (transparent) chart canvas. */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+          <span className="hero-glow hero-glow--gold" />
+          <span className="hero-glow hero-glow--emerald" />
+          <span className="hero-glow hero-glow--magenta" />
+        </div>
         <LiveChartBackground targetRef={heroRef} />
 
         {/* Readability overlay: darkest behind the text, chart visible at the edges. */}
@@ -33,6 +39,8 @@ export function Hero() {
         />
 
         <div className="page-x relative z-10 flex flex-col items-center py-16 text-center">
+          {/* Gold bloom behind the wordmark */}
+          <span aria-hidden="true" className="wordmark-bloom" />
           <p className="inline-flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 rounded-2xl border sm:rounded-full border-text/15 bg-ink/70 px-4 py-1.5 font-mono text-xs text-text/90 backdrop-blur-sm">
             <span>
               {event.clubName}, {event.collegeName}
@@ -46,15 +54,15 @@ export function Hero() {
             </span>
           </p>
 
-          <h1 id="hero-title" className="mt-7 whitespace-nowrap text-display uppercase">
+          <h1 id="hero-title" className="wordmark-glow relative mt-7 whitespace-nowrap text-display uppercase">
             <span className="text-text">First</span>
             <span className="sr-only"> </span>
             <span className="text-gold-grad">Tick</span>
           </h1>
 
-          <p className="mt-5 max-w-[34ch] text-lead text-text/85 sm:text-[1.4rem]">{event.heroLine}</p>
+          <p className="relative mt-5 max-w-[34ch] text-lead text-text/85 sm:text-[1.4rem]">{event.heroLine}</p>
 
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+          <div className="relative mt-9 flex flex-wrap items-center justify-center gap-3">
             <ActionLink href={event.links.registrationForm} className="min-w-[10.5rem]">
               Register now
             </ActionLink>
