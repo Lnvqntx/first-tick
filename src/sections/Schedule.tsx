@@ -52,7 +52,7 @@ export function Schedule() {
   return (
     <section id="schedule" aria-labelledby="schedule-title" className="border-b border-line">
       <div className="page-x py-16 md:py-24">
-        <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
+        <div data-reveal className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
           <h2 id="schedule-title" className="text-h2">
             Schedule
           </h2>
@@ -144,6 +144,7 @@ export function Schedule() {
 
         <div
           id="schedule-panel"
+          data-reveal
           aria-live="polite"
           className="mt-6 grid gap-4 border-t border-line pt-6 md:grid-cols-[minmax(0,16rem)_minmax(0,1fr)] md:gap-10"
         >
