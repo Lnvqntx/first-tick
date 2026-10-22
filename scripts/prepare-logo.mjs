@@ -3,17 +3,18 @@
  *
  *   npm run logo
  *
- * Reads public/brand/programming-club-logo.png (the circular seal, any
+ * Reads the club logo from public/brand/ (programming-club-logo.png or
+ * Programming_club_logo.png; png, jpg or webp; the circular seal on any
  * background), crops it to the circle on a transparent background, and
  * writes:
- *   public/brand/logo.png              512×512, used in header, footer, certificate
+ *   public/brand/logo.png              256×256, used in header, footer, certificate
  *   public/brand/favicon-32.png        browser tab icon
  *   public/brand/apple-touch-icon.png  180×180 home-screen icon
  *
  * Options: --in <file>  --out-dir <dir>   (defaults above)
  */
 import sharp from 'sharp'
-import { existsSync, mkdirSync } from 'node:fs'
+import { existsSync, mkdirSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 
 const args = process.argv.slice(2)
@@ -21,7 +22,13 @@ const opt = (name, fallback) => {
   const i = args.indexOf(name)
   return i >= 0 ? args[i + 1] : fallback
 }
-const input = opt('--in', 'public/brand/programming-club-logo.png')
+// Accepts programming-club-logo.png, Programming_club_logo.png, .jpg, .webp …
+const findSource = () => {
+  const dir = 'public/brand'
+  const hit = existsSync(dir) && readdirSync(dir).find((f) => /^programming[-_ ]?club[-_ ]?logo\.(png|jpe?g|webp)$/i.test(f))
+  return hit ? join(dir, hit) : join(dir, 'programming-club-logo.png')
+}
+const input = opt('--in', findSource())
 const outDir = opt('--out-dir', 'public/brand')
 
 if (!existsSync(input)) {
@@ -43,7 +50,7 @@ const bg = [0, 1, 2, 3].map((k) => corners.reduce((s, c) => s + c[k], 0) / 4)
 const bgTransparent = bg[3] < 16
 const bgLum = (bg[0] + bg[1] + bg[2]) / 3
 console.log(
-  `Input ${W}×${H}. Background: ${bgTransparent ? 'transparent' : `rgb(${bg.slice(0, 3).map(Math.round).join(', ')})`}` +
+  `Input ${input}, ${W}×${H}. Background: ${bgTransparent ? 'transparent' : `rgb(${bg.slice(0, 3).map(Math.round).join(', ')})`}` +
     (bgTransparent ? '' : bgLum > 160 ? ' (light)' : ' (dark)'),
 )
 
@@ -76,7 +83,7 @@ const side = Math.min(size, W - left, H - top)
 console.log(`Seal found at ${left},${top}, ${side}px square.`)
 
 // Circular mask removes whatever background is left in the corners.
-const OUT = 512
+const OUT = 256 // largest on-page use is 40px; 256 covers 2–3x screens
 const mask = Buffer.from(
   `<svg xmlns="http://www.w3.org/2000/svg" width="${OUT}" height="${OUT}"><circle cx="${OUT / 2}" cy="${OUT / 2}" r="${OUT / 2 - 1}" fill="#fff"/></svg>`,
 )
@@ -88,8 +95,27 @@ const logo = await sharp(input)
   .png({ compressionLevel: 9 })
   .toBuffer()
 
-await sharp(logo).toFile(join(outDir, 'logo.png'))
-await sharp(logo).resize(32, 32).png().toFile(join(outDir, 'favicon-32.png'))
+// Palette PNG: the seal is black and white, so this keeps it small without visible loss.
+await sharp(logo).png({ palette: true, quality: 90, compressionLevel: 9 }).toFile(join(outDir, 'logo.png'))
+// At 32px the outer text ring turns to noise, so the favicon uses the seal's
+// inner disc only (the centre FAVICON_CORE of the diameter), re-masked to a circle.
+const FAVICON_CORE = 0.66
+const coreSide = Math.round(OUT * FAVICON_CORE)
+const coreOff = Math.round((OUT - coreSide) / 2)
+const smallMask = Buffer.from(
+  `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><circle cx="32" cy="32" r="31.5" fill="#fff"/></svg>`,
+)
+await sharp(
+  await sharp(logo)
+    .extract({ left: coreOff, top: coreOff, width: coreSide, height: coreSide })
+    .resize(64, 64, { kernel: 'lanczos3' })
+    .composite([{ input: smallMask, blend: 'dest-in' }])
+    .png()
+    .toBuffer(),
+)
+  .resize(32, 32)
+  .png()
+  .toFile(join(outDir, 'favicon-32.png'))
 // Home-screen icon: seal on the site's ink colour (iOS shows transparency as black anyway).
 await sharp({ create: { width: 180, height: 180, channels: 4, background: '#0B0A08' } })
   .composite([{ input: await sharp(logo).resize(160, 160).toBuffer(), left: 10, top: 10 }])
