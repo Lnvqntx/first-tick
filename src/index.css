@@ -55,6 +55,11 @@
 @layer components {
   .glow-edge {
   }
+  /* The seal is black with white rings: a thin light ring and soft glow keep it visible on ink. */
+  .logo-seal {
+    border-radius: 9999px;
+    box-shadow: 0 0 0 1px rgb(243 238 227 / 0.35), 0 0 16px 1px rgb(227 178 60 / 0.25);
+  }
   .text-gold-grad {
     @apply bg-gold-grad bg-clip-text text-transparent;
   }
