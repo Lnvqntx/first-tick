@@ -8,7 +8,7 @@ function Seal() {
     return `${50 + r * Math.cos(a)},${50 + r * Math.sin(a)}`
   }).join(' ')
   return (
-    <svg viewBox="0 0 100 100" aria-hidden="true" className="h-24 w-24 sm:h-28 sm:w-28">
+    <svg viewBox="0 0 100 100" aria-hidden="true" className="h-16 w-16 sm:h-28 sm:w-28">
       <polygon points={points} fill="#0B0A08" />
       <circle cx="50" cy="50" r="36" fill="none" stroke="#E3B23C" strokeWidth="1.2" />
       <circle cx="50" cy="50" r="31" fill="none" stroke="#E3B23C" strokeWidth="0.6" strokeDasharray="1.5 2" />
@@ -44,7 +44,7 @@ export function CertificateCard() {
         </span>
       </div>
 
-      <div className="relative mt-8 flex items-end justify-between gap-4">
+      <div className="relative mt-6 flex flex-col-reverse items-start gap-4 sm:mt-8 sm:flex-row sm:items-end sm:justify-between">
         <div className="min-w-0">
           <h3 id="cert-card-title" className="font-display text-[clamp(1.75rem,2.6vw,2.6rem)] font-semibold leading-[1.02] text-ink">
             {c.title}
