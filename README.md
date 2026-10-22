@@ -56,21 +56,23 @@ You should never need to edit a component.
 
 Other files you may replace:
 
-- `public/brand/programming-club-logo.png`: the club logo source (see below).
+- `public/brand/Programming_club_logo.png`: the club logo source (see below).
 - `public/certificates.json`: certificate list for `/verify` (see below).
 
 ## Club logo
 
-The header, footer, certificate card and favicons use
-`public/brand/logo.png`. Right now that is a **placeholder seal**. To use
-the real logo:
+The header, footer, certificate card and favicons use files generated
+from the club logo source, `public/brand/Programming_club_logo.png`:
 
-1. Save the club logo as `public/brand/programming-club-logo.png` (any
-   background: white, light or transparent).
-2. Run `npm run logo`. The script (`scripts/prepare-logo.mjs`, uses
-   `sharp`) finds the circular seal, crops it to a transparent circle and
-   writes `logo.png`, `favicon-32.png` and `apple-touch-icon.png`.
-3. Check it with `npm run dev`, then commit all four files.
+- `logo.png`: the seal cropped to a transparent circle, 256×256
+- `favicon-32.png`: the seal's inner disc only (the outer ring of text is
+  unreadable at 32px)
+- `apple-touch-icon.png`: the full seal on the site's dark colour
+
+To change the logo, replace the source file (any background; png, jpg or
+webp; named `Programming_club_logo` or `programming-club-logo`), run
+`npm run logo`, check with `npm run dev`, and commit the generated files.
+The script is `scripts/prepare-logo.mjs` (uses `sharp`).
 
 The seal is black with white rings, so the site always draws a thin light
 ring and a soft gold glow around it to keep it visible on the dark
@@ -176,9 +178,8 @@ Made while building without asking; change any of them freely.
 - **Header Register button** scrolls to "Three steps to your first tick"
   instead of opening the form directly, so the nav never shows a disabled
   button. The hero, step 1 and the footer link straight to the form.
-- **Club logo**: the real file was not in the repo, so a placeholder seal
-  generated through the same `npm run logo` pipeline is used until it is
-  added.
+- **Favicon** uses the seal's inner P/C disc rather than the full seal,
+  because the outer text ring turns to noise at 32px.
 - **Hero colour glows** include a faint magenta (at most 20% alpha, hero
   only) as the "touch of violet or magenta". No blue or purple elsewhere.
 - **Challenge items** each get one short line of explanation under the
