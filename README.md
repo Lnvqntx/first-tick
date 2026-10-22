@@ -9,7 +9,7 @@ The site's jobs: get students to register and join the WhatsApp
 community, serve the daily PDFs, link the final submission form, and let
 anyone verify a certificate ID.
 
-- `/` landing page: live-chart hero, schedule, about, registration, FAQ
+- `/` landing page: live-chart hero, marquee bands, schedule, final challenge and certificate, three steps to join, FAQ
 - `/resources` daily notes, assignment brief, Python notebook
 - `/verify` certificate ID lookup (kept but not linked from the site for now)
 
@@ -41,22 +41,40 @@ You should never need to edit a component.
 | What | Field | Notes |
 |---|---|---|
 | Names | `name`, `tagline`, `clubName`, `collegeName` | |
-| Hero | `heroLine`, `facts[]` | One line under the wordmark (max 12 words); the facts row under the hero (`short` labels are used on phones). |
-| About | `about.intro[]`, `about.benefits[]` | Two short sentences and three one-line benefits. |
+| Logo | `clubLogo` | Path and alt text for the club seal. See "Club logo" below. |
+| Hero | `heroLine` | One line under the wordmark (max 12 words). |
+| Bands | `marquee.primary[]`, `marquee.secondary[]` | The two scrolling bands under the hero. |
+| Challenge | `challenge` | Heading, intro, the four challenge items and the certificate card text. |
+| Join steps | `steps` | Copy for the three steps (the step 3 date comes from Day 1). |
 | Date status | `datesConfirmed` | `false` shows "Dates to be confirmed" everywhere dates appear. Set `true` when final. |
 | Days | `days[]` | Date (ISO with `+05:30`), short title (under the schedule candle), up to 3 topics (shown when the day is selected). |
 | Submission deadline | `submissionDeadline`, `submissionDeadlineConfirmed` | Placeholder `23:59` until decided. |
-| Links | `links.whatsappAnnouncements`, `links.whatsappDoubts`, `links.submissionForm`, `links.registrationEndpoint` | Empty `''` = button shows disabled with "Link coming soon". |
+| Links | `links.registrationForm`, `links.whatsappCommunity`, `links.submissionForm` | Full `https://` URLs; they open in a new tab. Empty `''` = button shows disabled with "Link coming soon". |
 | Files | `resources[]` | `file: null` = locked. See below. |
 | Recording | `recordingUrl` | `null` hides the "Recorded session" card. Set a URL to show it on `/resources`. |
 | FAQ | `faq[]` | `{ question, answer }`. At most 6 are shown. The live-sessions answer is a placeholder. |
 
 Other files you may replace:
 
-- `public/brand/logo-placeholder.svg`: the three-bar mark next to the
-  wordmark. Replace with the club logo (same file name, square works best).
-- `public/brand/favicon.svg`: browser tab icon.
+- `public/brand/programming-club-logo.png`: the club logo source (see below).
 - `public/certificates.json`: certificate list for `/verify` (see below).
+
+## Club logo
+
+The header, footer, certificate card and favicons use
+`public/brand/logo.png`. Right now that is a **placeholder seal**. To use
+the real logo:
+
+1. Save the club logo as `public/brand/programming-club-logo.png` (any
+   background: white, light or transparent).
+2. Run `npm run logo`. The script (`scripts/prepare-logo.mjs`, uses
+   `sharp`) finds the circular seal, crops it to a transparent circle and
+   writes `logo.png`, `favicon-32.png` and `apple-touch-icon.png`.
+3. Check it with `npm run dev`, then commit all four files.
+
+The seal is black with white rings, so the site always draws a thin light
+ring and a soft gold glow around it to keep it visible on the dark
+background.
 
 ## Adding a day's PDF
 
@@ -102,13 +120,10 @@ the list of names and IDs. Keep it to name, tier, date and ID.
 
 ## Registration
 
-The form posts JSON to `links.registrationEndpoint`, a Google Apps Script
-web app writing to a club-owned Google Sheet and rejecting duplicate
-emails. Script: [`docs/apps-script.gs`](docs/apps-script.gs). Step-by-step
-setup: [`docs/registration-setup.md`](docs/registration-setup.md).
-
-With an empty endpoint the form runs in **demo mode**: it validates, sends
-nothing, and shows "Demo mode, nothing was saved" on the success screen.
+Students register through a Google Form owned by the club. Put its
+link in `links.registrationForm`; every "Register now" and "Open form"
+button uses it. There is no in-page form, so this repo stores no personal
+data.
 
 ## Deploying to Vercel (free)
 
@@ -124,11 +139,11 @@ nothing, and shows "Demo mode, nothing was saved" on the success screen.
 ## Environment variables
 
 None. All settings are in `src/config/event.ts`, so there is no
-`.env.example`. (The registration endpoint is a public URL by design.)
+`.env.example`. (The form and WhatsApp links are public URLs by design.)
 
 ## Assumptions
 
-Made while building Phase 1 without asking; change any of them freely.
+Made while building without asking; change any of them freely.
 
 - **Dates** are as in the spec (27–30 Oct 2026, IST) and still unconfirmed,
   so `datesConfirmed: false`.
@@ -139,24 +154,15 @@ Made while building Phase 1 without asking; change any of them freely.
   Day 3 covers assignment guidance. The Python notebook is shown as Day 2
   (28 Oct), after moving averages are introduced.
 - **Live sessions**: not decided, so the FAQ answer says "To be announced".
-- **Year of study** options: 1st to 4th year, plus "Other" for anyone
-  outside that range (e.g. PG or 5th-year integrated students).
-- **College email**: any valid email format is accepted. The college email
-  domain is not enforced because it was not specified. Add a domain check
-  in `src/lib/registration.ts` (`validate`) if needed.
-- **WhatsApp number**: must be a 10-digit Indian mobile number (starting
-  6–9); `+91` or a leading `0` is accepted and stripped.
-- **Experience levels** are stored as `never`, `basics`, `traded`.
 - **Certificate ID format** in the samples is `FT26-…`. The
   real format is the club's choice; `/verify` matches whatever is in the
   JSON.
 - **Merit rubric** is described as rewarding process, risk management and
   clarity rather than profit, to be published with the assignment brief.
 - **No photos** are used anywhere (no stock or AI images).
-- **Logo**: a placeholder three-bar mark in `public/brand/`.
 - **Colour**: muted text was nudged from `#9A9486` to `#A39D8F` for
   comfortable AA contrast. Market green `#2FBF71` and red `#E5534B` are
-  used only inside charts; form errors use a lighter red `#EE6A62`.
+  used in charts (hero, schedule, certificate seal); error text uses a lighter red `#EE6A62`.
 - **Hero chart** is a random-walk simulation, labelled as such. The
   pointer pulls the price toward its height; the price scale is fixed
   around 100 so it can never run away. Tick ~120 ms, 9 ticks per candle.
@@ -165,25 +171,40 @@ Made while building Phase 1 without asking; change any of them freely.
 - **Fonts**: Fraunces (display) and IBM Plex Sans / Plex Mono (text, dates,
   IDs). Plex Mono is the same family as Plex Sans.
 - **Hosting**: Vercel, with the SPA rewrite in `vercel.json`.
-- **Doubts group** is a separate WhatsApp group from announcements.
+- **One WhatsApp community** link replaces the separate announcements and
+  doubts groups.
+- **Header Register button** scrolls to "Three steps to your first tick"
+  instead of opening the form directly, so the nav never shows a disabled
+  button. The hero, step 1 and the footer link straight to the form.
+- **Club logo**: the real file was not in the repo, so a placeholder seal
+  generated through the same `npm run logo` pipeline is used until it is
+  added.
+- **Hero colour glows** include a faint magenta (at most 20% alpha, hero
+  only) as the "touch of violet or magenta". No blue or purple elsewhere.
+- **Challenge items** each get one short line of explanation under the
+  four requested titles.
+- **Certificate card** shows a generic `ID FT26-XXXX` chip to illustrate
+  the verifiable ID; it does not link to `/verify` while that page is
+  unlinked.
+- **Scroll reveal**: 500ms per element with up to 280ms of stagger.
 
 ## Project layout
 
 ```
 src/
   config/event.ts       all editable content
-  components/           header, footer, buttons, live chart canvas wrapper, form
+  components/           header, footer, pill buttons, live chart wrapper, marquee, certificate card, logo
   sections/             landing page sections in page order
   pages/                Home, Resources, Verify, NotFound
-  lib/                  live chart engine (liveChart.ts), date formatting, registration logic, hooks
+  lib/                  live chart engine, scroll reveal, cursor glow, dates, hooks
+scripts/
+  prepare-logo.mjs      crops the club seal and builds logo.png + favicons (npm run logo)
 public/
-  brand/                logo placeholder, favicon
+  brand/                club logo (logo.png), favicons, logo source
   resources/            daily PDFs (commit each on its morning)
   certificates.json     data for /verify
 docs/
   design-plan.md        palette, type, wireframe, hero moment
-  apps-script.gs        registration handler for Google Sheets
-  registration-setup.md how to deploy it
 ```
 
 ## Content rules
