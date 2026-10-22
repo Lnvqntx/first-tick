@@ -70,6 +70,8 @@ export interface EventConfig {
   }
   clubName: string
   collegeName: string
+  /** Club logo (circular seal on a transparent background). Regenerate with `npm run logo`. */
+  clubLogo: { src: string; alt: string }
   collegeFullName: string
   campus: string
   datesConfirmed: boolean
@@ -129,6 +131,7 @@ export const event: EventConfig = {
   },
   clubName: 'Programming Club',
   collegeName: 'CR Rao AIMSCS',
+  clubLogo: { src: '/brand/logo.png', alt: 'Programming Club, CR Rao AIMSCS logo' },
   /** Shown in small print where the full name helps. */
   collegeFullName: 'CR Rao Advanced Institute of Mathematics, Statistics and Computer Science',
   campus: 'University of Hyderabad campus',
