@@ -145,3 +145,23 @@
     animation: none;
   }
 }
+
+/* ---------- Marquee ---------- */
+@layer components {
+  .marquee-track {
+    animation: marquee linear infinite;
+    will-change: transform;
+  }
+  .marquee-outline {
+    color: transparent;
+    -webkit-text-stroke: 1px rgb(243 238 227 / 0.5);
+  }
+}
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
