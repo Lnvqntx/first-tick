@@ -4,6 +4,7 @@ import { Header } from './Header'
 import { Footer } from './Footer'
 import { ScrollProgress } from './ScrollProgress'
 import { useScrollReveal } from '../lib/useScrollReveal'
+import { useCursorGlow } from '../lib/useCursorGlow'
 
 /** Scrolls to #hash targets after route changes, otherwise to the top. */
 function useScrollToHash() {
@@ -24,6 +25,7 @@ export function Layout() {
   useScrollToHash()
   const { pathname } = useLocation()
   useScrollReveal(pathname)
+  useCursorGlow()
   return (
     <div className="flex min-h-screen flex-col">
       <ScrollProgress />

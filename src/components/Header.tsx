@@ -49,7 +49,7 @@ export function Header() {
           </ActionLink>
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-line text-text md:hidden"
+            className="glow-edge inline-flex h-10 w-10 items-center justify-center rounded-full border border-line text-text md:hidden"
             aria-expanded={open}
             aria-controls="mobile-nav"
             onClick={() => setOpen((v) => !v)}

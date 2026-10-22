@@ -97,7 +97,7 @@ export default function Verify() {
 
         <div aria-live="polite" className="mt-10">
           {state.kind === 'found' && (
-            <div className="rounded-[3px] border border-line bg-surface p-6">
+            <div className="glow-edge rounded-3xl border border-line bg-surface p-6">
               <p className="flex items-center gap-2 font-mono text-xs text-gold">
                 <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
                   <path d="M2 6.5l2.5 2.5L10 3" stroke="currentColor" strokeWidth="1.6" fill="none" />

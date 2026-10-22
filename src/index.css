@@ -53,8 +53,6 @@
 }
 
 @layer components {
-  .glow-edge {
-  }
   /* The seal is black with white rings: a thin light ring and soft glow keep it visible on ink. */
   .logo-seal {
     border-radius: 9999px;
@@ -190,4 +188,58 @@
     translate 0.5s cubic-bezier(0.2, 0.7, 0.2, 1),
     filter 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
   transition-delay: var(--reveal-delay, 0ms);
+}
+
+/* ---------- Cursor-reactive outlines (driven by useCursorGlow) ---------- */
+.glow-edge {
+  position: relative;
+  transform: perspective(700px) rotateX(var(--ry, 0deg)) rotateY(var(--rx, 0deg))
+    translate3d(var(--tx, 0px), var(--ty, 0px), 0);
+  transition-property: transform, box-shadow, border-color, filter, background-image;
+  transition-duration: 0.45s;
+  transition-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.glow-edge.is-glowing {
+  transition-duration: 0.12s;
+  will-change: transform;
+}
+/* Gold highlight on the border that follows the pointer (masked to a 1px ring). */
+.glow-edge::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(
+    180px circle at var(--gx, 50%) var(--gy, 50%),
+    rgb(247 215 126 / 0.95),
+    rgb(227 178 60 / 0.35) 40%,
+    transparent 70%
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+/* Soft glow layer, faded with opacity only. */
+.glow-edge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 28px -4px rgb(227 178 60 / 0.4);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+.glow-edge.is-glowing::after,
+.glow-edge.is-glowing::before {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce), (hover: none) {
+  .glow-edge {
+    transform: none;
+  }
 }
