@@ -4,10 +4,11 @@ import { Wordmark } from './Wordmark'
 import { ActionLink } from './ActionLink'
 
 const nav = [
-  { label: 'About', to: '/#about' },
   { label: 'Schedule', to: '/#schedule' },
-  { label: 'Resources', to: '/resources' },
+  { label: 'Challenge', to: '/#challenge' },
+  { label: 'How to join', to: '/#join' },
   { label: 'FAQ', to: '/#faq' },
+  { label: 'Resources', to: '/resources' },
 ]
 
 export function Header() {

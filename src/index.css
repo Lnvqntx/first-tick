@@ -60,6 +60,12 @@
     border-radius: 9999px;
     box-shadow: 0 0 0 1px rgb(243 238 227 / 0.35), 0 0 16px 1px rgb(227 178 60 / 0.25);
   }
+  .cert-card {
+    background:
+      radial-gradient(120% 80% at 85% 0%, rgb(255 244 205 / 0.55), transparent 55%),
+      linear-gradient(135deg, #F7D77E 0%, #E3B23C 38%, #C99A32 70%, #E9C25A 100%);
+    box-shadow: 0 20px 60px -24px rgb(227 178 60 / 0.55);
+  }
   .text-gold-grad {
     @apply bg-gold-grad bg-clip-text text-transparent;
   }
