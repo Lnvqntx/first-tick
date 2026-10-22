@@ -55,8 +55,13 @@ export interface EventConfig {
   tagline: string
   /** One line under the hero wordmark. Keep it to 12 words or fewer. */
   heroLine: string
-  /** True facts shown in one line under the hero. `short` is used on phones. No invented numbers. */
-  facts: { label: string; short: string }[]
+  /** The two scrolling bands under the hero. */
+  marquee: {
+    /** Bold band: the big themes. */
+    primary: string[]
+    /** Outlined band: the specific skills. */
+    secondary: string[]
+  }
   about: {
     /** Two short sentences. */
     intro: string[]
@@ -90,12 +95,26 @@ export const event: EventConfig = {
   name: 'First Tick',
   tagline: 'Your first step into financial markets.',
   heroLine: 'A free three-day beginner programme on markets, risk and paper trading.',
-  facts: [
-    { label: '3 learning days', short: '3 days' },
-    { label: '1 assignment', short: '1 assignment' },
-    { label: 'Free for CR Rao AIMSCS students', short: 'Free' },
-    { label: 'Certificate on completion', short: 'Certificate' },
-  ],
+  marquee: {
+    primary: [
+      'Market foundation',
+      'Technical analysis',
+      'Trading strategy',
+      'Risk management',
+      'Trading psychology',
+      'Final challenge',
+      'Certificate',
+    ],
+    secondary: [
+      'Support and resistance',
+      'Indicators',
+      'Trendlines',
+      'Stop-loss',
+      'Position sizing',
+      'Discipline',
+      'Candlesticks',
+    ],
+  },
 
   about: {
     intro: [

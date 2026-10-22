@@ -3,6 +3,7 @@ import { event } from '../config/event'
 import { ActionLink } from '../components/ActionLink'
 import { DatesNote } from '../components/DatesNote'
 import { WhatsAppIcon } from '../components/WhatsAppIcon'
+import { Marquee } from '../components/Marquee'
 import { LiveChartBackground } from '../components/LiveChartBackground'
 import { eventRange } from '../lib/dates'
 
@@ -82,21 +83,7 @@ export function Hero() {
         </p>
       </section>
 
-      <div className="border-y border-line">
-        <ul className="page-x flex items-center justify-center gap-x-2 overflow-hidden whitespace-nowrap py-3.5 font-mono text-[0.6875rem] text-text/90 sm:gap-x-3 sm:text-sm">
-          {event.facts.map((f, i) => (
-            <li key={f.label} className="flex items-center gap-2 sm:gap-3">
-              {i > 0 && (
-                <span aria-hidden="true" className="text-gold">
-                  ·
-                </span>
-              )}
-              <span className="sm:hidden">{f.short}</span>
-              <span className="hidden sm:inline">{f.label}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <Marquee primary={event.marquee.primary} secondary={event.marquee.secondary} />
     </>
   )
 }
