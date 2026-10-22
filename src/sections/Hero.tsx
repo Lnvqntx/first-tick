@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { event } from '../config/event'
 import { ActionLink } from '../components/ActionLink'
 import { DatesNote } from '../components/DatesNote'
+import { WhatsAppIcon } from '../components/WhatsAppIcon'
 import { LiveChartBackground } from '../components/LiveChartBackground'
 import { eventRange } from '../lib/dates'
 
@@ -54,11 +55,16 @@ export function Hero() {
           <p className="mt-5 max-w-[34ch] text-lead text-text/85 sm:text-[1.4rem]">{event.heroLine}</p>
 
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-            <ActionLink href="/#register" className="min-w-[9rem]">
-              Register
+            <ActionLink href={event.links.registrationForm} className="min-w-[10.5rem]">
+              Register now
             </ActionLink>
-            <ActionLink href="/#schedule" variant="secondary" className="min-w-[9rem]">
-              View schedule
+            <ActionLink
+              href={event.links.whatsappCommunity}
+              variant="secondary"
+              icon={<WhatsAppIcon />}
+              className="min-w-[10.5rem]"
+            >
+              Join WhatsApp
             </ActionLink>
           </div>
         </div>

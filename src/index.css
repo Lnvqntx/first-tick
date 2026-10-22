@@ -53,6 +53,8 @@
 }
 
 @layer components {
+  .glow-edge {
+  }
   .text-gold-grad {
     @apply bg-gold-grad bg-clip-text text-transparent;
   }
@@ -69,7 +71,7 @@
     @apply underline decoration-line decoration-1 underline-offset-4 transition-colors hover:decoration-gold;
   }
   .field-input {
-    @apply block w-full rounded-[3px] border border-line bg-ink px-3.5 py-3 text-base text-text placeholder:text-muted/70 transition-colors hover:border-muted/60 focus:border-gold focus:outline-none focus-visible:outline-none;
+    @apply block w-full rounded-full border border-line bg-ink px-5 py-3 text-base text-text placeholder:text-muted/70 transition-colors hover:border-muted/60 focus:border-gold focus:outline-none focus-visible:outline-none;
   }
   .field-input[aria-invalid='true'] {
     @apply border-loss;

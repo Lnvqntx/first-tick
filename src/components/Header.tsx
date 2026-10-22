@@ -43,12 +43,12 @@ export function Header() {
           </ul>
         </nav>
         <div className="flex items-center gap-2">
-          <ActionLink href="/#register" className="min-h-[40px] px-4 py-2">
+          <ActionLink href="/#join" className="min-h-[40px] px-5 py-2">
             Register
           </ActionLink>
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-[3px] border border-line text-text md:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-line text-text md:hidden"
             aria-expanded={open}
             aria-controls="mobile-nav"
             onClick={() => setOpen((v) => !v)}
