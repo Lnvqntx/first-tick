@@ -139,7 +139,7 @@ function ResourceCard({ item }: { item: ResourceItem }) {
                 onClick={() => setViewing((v) => !v)}
                 aria-expanded={viewing}
                 aria-controls={`${item.id}-viewer`}
-                className="inline-flex min-h-[44px] items-center rounded-[3px] border border-line px-5 text-sm font-medium text-text transition-colors hover:border-gold/70"
+                className="glow-edge inline-flex min-h-[44px] items-center rounded-full border border-line px-6 text-sm font-medium text-text transition-colors hover:border-gold/70"
               >
                 {viewing ? 'Hide preview' : 'View here'}
               </button>

@@ -73,10 +73,9 @@ export interface EventConfig {
   submissionDeadlineConfirmed: boolean
   days: EventDay[]
   links: {
-    whatsappAnnouncements: string
-    whatsappDoubts: string
+    registrationForm: string
+    whatsappCommunity: string
     submissionForm: string
-    registrationEndpoint: string
   }
   resources: ResourceItem[]
   recordingUrl: string | null
@@ -181,17 +180,12 @@ export const event: EventConfig = {
    * as disabled with "Link coming soon" instead of a dead click.
    */
   links: {
-    /** WhatsApp community / announcements group invite link. */
-    whatsappAnnouncements: '',
-    /** WhatsApp doubts group invite link. */
-    whatsappDoubts: '',
+    /** Google Form for registration, e.g. 'https://forms.gle/…'. Opens in a new tab. */
+    registrationForm: '',
+    /** The one WhatsApp community invite link, e.g. 'https://chat.whatsapp.com/…'. Opens in a new tab. */
+    whatsappCommunity: '',
     /** Google Form (or similar) for the Day 4 PDF submission. */
     submissionForm: '',
-    /**
-     * Google Apps Script web app URL that stores registrations.
-     * Empty = demo mode (nothing is sent). See docs/registration-setup.md.
-     */
-    registrationEndpoint: '',
   },
 
   /**
