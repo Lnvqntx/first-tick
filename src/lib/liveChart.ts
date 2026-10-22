@@ -259,9 +259,8 @@ export class LiveChart {
     const n = this.candles.length
     const xOf = (i: number) => right - spacing * 0.8 - (n - 1 - i) * spacing - progress * spacing
 
+    // Transparent canvas: the hero's drifting colour glows show through.
     ctx.clearRect(0, 0, w, h)
-    ctx.fillStyle = COLORS.ink
-    ctx.fillRect(0, 0, w, h)
 
     // Horizontal grid + right axis labels
     ctx.font = `11px ${MONO}`
@@ -300,31 +299,46 @@ export class LiveChart {
       ctx.fillRect(Math.round(x - bodyW / 2), volBottom - vh, bodyW, vh)
     }
 
-    // Candles: newer candles slightly brighter
-    for (let i = 0; i < n; i++) {
-      const c = this.candles[i]
-      const x = Math.round(xOf(i)) + 0.5
-      if (x < -spacing || x > right) continue
-      const up = c.c >= c.o
-      ctx.globalAlpha = 0.45 + 0.45 * (i / n)
-      ctx.strokeStyle = ctx.fillStyle = up ? COLORS.up : COLORS.down
-      ctx.beginPath()
-      ctx.moveTo(x, this.yAtPrice(c.h))
-      ctx.lineTo(x, this.yAtPrice(c.l))
-      ctx.stroke()
-      const y1 = this.yAtPrice(Math.max(c.o, c.c))
-      const bh = Math.max(1, this.yAtPrice(Math.min(c.o, c.c)) - y1)
-      ctx.fillRect(Math.round(x - bodyW / 2), y1, bodyW, bh)
+    // Candles, batched by colour and age so the bloom (shadowBlur) costs a
+    // handful of passes per frame instead of one per candle.
+    const BUCKETS = 3
+    ctx.save()
+    ctx.lineWidth = 1
+    for (const up of [true, false]) {
+      const color = up ? COLORS.up : COLORS.down
+      ctx.strokeStyle = ctx.fillStyle = color
+      ctx.shadowColor = up ? 'rgba(47, 191, 113, 0.6)' : 'rgba(229, 83, 75, 0.6)'
+      ctx.shadowBlur = 6
+      for (let b = 0; b < BUCKETS; b++) {
+        ctx.globalAlpha = 0.5 + 0.2 * b
+        const wicks = new Path2D()
+        const bodies = new Path2D()
+        const from = Math.floor((b * n) / BUCKETS)
+        const to = Math.floor(((b + 1) * n) / BUCKETS)
+        for (let i = from; i < to; i++) {
+          const c = this.candles[i]
+          if (c.c >= c.o !== up) continue
+          const x = Math.round(xOf(i)) + 0.5
+          if (x < -spacing || x > right) continue
+          wicks.moveTo(x, this.yAtPrice(c.h))
+          wicks.lineTo(x, this.yAtPrice(c.l))
+          const y1 = this.yAtPrice(Math.max(c.o, c.c))
+          const bh = Math.max(1, this.yAtPrice(Math.min(c.o, c.c)) - y1)
+          bodies.rect(Math.round(x - bodyW / 2), y1, bodyW, bh)
+        }
+        ctx.stroke(wicks)
+        ctx.fill(bodies)
+      }
     }
-    ctx.globalAlpha = 1
+    ctx.restore()
 
     // Smoothed gold price line through closes
     ctx.save()
     ctx.beginPath()
     ctx.strokeStyle = COLORS.gold
-    ctx.lineWidth = 1.6
-    ctx.shadowColor = 'rgba(227, 178, 60, 0.55)'
-    ctx.shadowBlur = 8
+    ctx.lineWidth = 1.8
+    ctx.shadowColor = 'rgba(227, 178, 60, 0.8)'
+    ctx.shadowBlur = 14
     let px = xOf(0)
     let py = this.yAtPrice(this.candles[0].c)
     ctx.moveTo(px, py)
