@@ -62,11 +62,26 @@ export interface EventConfig {
     /** Outlined band: the specific skills. */
     secondary: string[]
   }
-  about: {
-    /** Two short sentences. */
-    intro: string[]
-    /** Three one-line benefits. */
-    benefits: { title: string; body: string }[]
+  /** "Make your first trade. On paper." section. */
+  challenge: {
+    heading: string
+    intro: string
+    /** Exactly four short steps for the final trading challenge card. */
+    items: { title: string; body: string }[]
+    certificate: {
+      title: string
+      /** One line naming the tiers. */
+      tiers: string
+      /** Mentions the verifiable ID. */
+      note: string
+    }
+  }
+  /** "Three steps to your first tick" section. */
+  steps: {
+    heading: string
+    register: { title: string; body: string }
+    whatsapp: { title: string; body: string }
+    showUp: { body: string }
   }
   clubName: string
   collegeName: string
@@ -118,16 +133,27 @@ export const event: EventConfig = {
     ],
   },
 
-  about: {
-    intro: [
-      'First Tick is a free online programme by the Programming Club, CR Rao AIMSCS, for students who have never traded.',
-      'It teaches how markets work and how to manage risk, not tips or promised profits.',
+  challenge: {
+    heading: 'Make your first trade. On paper.',
+    intro: 'Day 4 is one paper trade, start to finish. Do it well and you earn the certificate.',
+    items: [
+      { title: 'Read the market', body: 'Pick a stock and read its chart.' },
+      { title: 'Plan the trade', body: 'Set your entry, stop-loss and target.' },
+      { title: 'Manage the risk', body: 'Size it so a loss stays small.' },
+      { title: 'Submit your plan', body: 'One PDF, before the Day 4 deadline.' },
     ],
-    benefits: [
-      { title: 'Paper trading only', body: 'Practise with simulated money. Mistakes cost nothing.' },
-      { title: 'Optional Python track', body: 'Plot a chart and backtest a moving-average crossover.' },
-      { title: 'Community and doubts', body: 'One WhatsApp group for updates, one for questions.' },
-    ],
+    certificate: {
+      title: 'Certificate of completion',
+      tiers: 'Two tiers: Completion for every valid submission, Merit for the strongest.',
+      note: 'Each certificate carries a unique ID that anyone can verify.',
+    },
+  },
+
+  steps: {
+    heading: 'Three steps to your first tick',
+    register: { title: 'Register', body: 'Fill in the short Google Form. It takes a minute.' },
+    whatsapp: { title: 'Join the WhatsApp community', body: 'Every update, note and link is shared there first.' },
+    showUp: { body: 'Day 1 notes and the first session open that morning.' },
   },
   clubName: 'Programming Club',
   collegeName: 'CR Rao AIMSCS',
