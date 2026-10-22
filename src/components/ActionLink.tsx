@@ -57,7 +57,7 @@ export function ActionLink({
       <span
         role="link"
         aria-disabled="true"
-        className={`${base[variant]} ${disabledStyle[variant]} cursor-not-allowed ${className}`}
+        className={`${base[variant]} ${disabledStyle[variant]} ${variant === 'quiet' ? '' : 'glow-edge'} cursor-not-allowed ${className}`}
       >
         <span className="inline-flex items-center gap-2">
           {icon}

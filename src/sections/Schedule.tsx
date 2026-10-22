@@ -101,7 +101,7 @@ export function Schedule() {
                   onClick={() => setSelected(i)}
                   onMouseEnter={() => setSelected(i)}
                   onFocus={() => setSelected(i)}
-                  className="group flex flex-col items-center rounded-[4px] px-1 pb-3 text-center focus-visible:outline-offset-0"
+                  className="group flex flex-col items-center rounded-3xl px-1 pb-3 text-center focus-visible:outline-offset-0"
                 >
                   <span className="relative block h-36 w-full sm:h-48 md:h-56" aria-hidden="true">
                     {/* Centring wrapper: not scaled, so translate and scaleY never collide. */}

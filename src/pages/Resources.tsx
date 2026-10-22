@@ -50,7 +50,7 @@ export default function Resources() {
       </div>
 
       {event.recordingUrl && (
-        <div className="mt-10 flex flex-col gap-4 rounded-[3px] border border-line bg-surface p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+        <div className="glow-edge mt-10 flex flex-col gap-4 rounded-3xl border border-line bg-surface p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
           <div>
             <h2 className="font-sans text-base font-medium tracking-normal">Recorded session</h2>
             <p className="mt-1 text-sm text-muted">Missed it live? Watch the recording.</p>
@@ -64,7 +64,7 @@ export default function Resources() {
       <div
         role="tablist"
         aria-label="Resource sections"
-        className="-mx-4 mt-12 flex gap-1 overflow-x-auto border-b border-line px-4 sm:mx-0 sm:px-0"
+        className="-mx-4 mt-12 flex gap-2 overflow-x-auto px-4 py-1 sm:mx-0 sm:flex-wrap sm:px-0"
       >
         {TABS.map((t, i) => {
           const selected = t.id === active
@@ -81,8 +81,8 @@ export default function Resources() {
               tabIndex={selected ? 0 : -1}
               onClick={() => select(t.id)}
               onKeyDown={(e) => onKeyDown(e, i)}
-              className={`-mb-px shrink-0 whitespace-nowrap border-b-2 px-3 py-3 text-sm transition-colors sm:px-4 ${
-                selected ? 'border-gold text-text' : 'border-transparent text-muted hover:text-text'
+              className={`glow-edge shrink-0 whitespace-nowrap rounded-full border px-4 py-2 text-sm transition-colors ${
+                selected ? 'border-gold bg-gold/10 text-text' : 'border-line text-muted hover:text-text'
               }`}
             >
               {t.label}
@@ -146,7 +146,7 @@ function ResourceCard({ item }: { item: ResourceItem }) {
             )}
           </div>
           {isPdf && viewing && (
-            <div id={`${item.id}-viewer`} className="mt-5 overflow-hidden rounded-[3px] border border-line bg-surface">
+            <div id={`${item.id}-viewer`} className="mt-5 overflow-hidden rounded-2xl border border-line bg-surface">
               <object data={item.file!} type="application/pdf" className="block h-[75vh] min-h-[420px] w-full" aria-label={item.title}>
                 <div className="p-6 text-sm text-muted">
                   Your browser cannot show the PDF here.{' '}
@@ -160,7 +160,7 @@ function ResourceCard({ item }: { item: ResourceItem }) {
           )}
         </>
       ) : (
-        <div className="mt-5 rounded-[3px] border border-dashed border-line px-4 py-4 text-sm text-muted">
+        <div className="mt-5 rounded-2xl border border-dashed border-line px-5 py-4 text-sm text-muted">
           This file is not out yet. It will appear here on {formatLong(item.availableOn)}, around{' '}
           {formatTime(item.availableOn)} {event.timezoneLabel}, and the link will be shared in the WhatsApp community.
         </div>
