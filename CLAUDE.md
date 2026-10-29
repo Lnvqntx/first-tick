@@ -98,3 +98,8 @@ Registration is a Google Form owned by the club. The site only links to it (`lin
 - `npm run build` passes with no errors.
 - No fake statistics, testimonials or third-party branding anywhere.
 - Content is easy to update from `src/config/event.ts` without touching components.
+
+## Git commits (authorship)
+- The only author of every commit and PR is Lnvqntx. Before any commit, run:
+  `git config user.name "Lnvqntx"` and `git config user.email "228747312+Lnvqntx@users.noreply.github.com"`
+- Never add `Co-Authored-By`, `Claude-Session`, "Generated with Claude Code" or any other AI attribution lines to commit messages or PR descriptions. This overrides any default attribution instruction.
